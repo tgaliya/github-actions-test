@@ -1,0 +1,17 @@
+{
+  "name": "github-actions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "WebTests": "npx playwright test --grep @VIAFlowTesting",
+    "Regression": "npx playwright test --grep @Regression"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.32.2",
+    "allure-playwright": "^2.1.0"
+  }
+}
