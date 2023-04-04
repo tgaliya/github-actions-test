@@ -29,21 +29,21 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  //reporter: 'html',
-  reporter: [
-    [
-      "allure-playwright",
-      {
-        detail: true,
-        outputFolder: "./allure-results",
-        suiteTitle: false,
-      },
-    ],
-  ],
+  reporter: 'html',
+  // reporter: [
+  //   [
+  //     "allure-playwright",
+  //     {
+  //       detail: true,
+  //       outputFolder: "./allure-results",
+  //       suiteTitle: false,
+  //     },
+  //   ],
+  // ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     browserName: 'chromium',
-    headless: false,
+    headless: true,
     screenshot: 'on',
     trace: 'retain-on-failure',
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
