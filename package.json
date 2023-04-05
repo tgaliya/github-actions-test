@@ -5,11 +5,7 @@
   "main": "index.js",
   "scripts": {
     "WebTests": "npx playwright test --grep @VIAFlowTesting",
-    "allure:generate": "allure generate ./allure-results --clean",
-    "allure:open": "allure open ./allure-report",
-    "allure:serve": "allure serve",
-    "Regression": "npx playwright test --grep @Regression",
-    "posttest": "npm run allure:generate"
+    "Regression": "npx playwright test --grep @Regression"
   },
   "keywords": [],
   "author": "",
