@@ -61,7 +61,7 @@ jobs:
 
     - name: Deploy report to Github Pages
       if: ${{ always() }}
-      uses: tgaliya/github-actions-test/actions-gh-pages
+      uses: tgaliya/github-actions-test/actions-gh-pages@master
       env:
         PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PUBLISH_BRANCH: gh-pages
