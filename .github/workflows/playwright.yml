@@ -27,4 +27,8 @@ jobs:
       with:
         name: playwright-report
         path: ./allure-results/
-        retention-days: 30
+    - name: Generating allure results
+      run: allure generate ./allure-results --clean
+    - name: Opening allure report
+      run: allure open ./allure-report
+      retention-days: 30
