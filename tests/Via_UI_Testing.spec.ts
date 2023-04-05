@@ -55,7 +55,7 @@ test('@ViaFlowTesting @Regression Via Flow Testing: Login, User Management & Adm
     await page.locator("input[type='tel']").nth(4).type("5");
     await page.locator("input[type='tel']").last().type("6");
     await Promise.all([
-        page.waitForURL("https://qa-via.outamationlabs.com/via-ui/app/user-management/dashboard"),
+        page.waitForURL("https://qa-via.outamationlabs.com/via-ui/#/app/user-management/dashboard"),
         page.locator("button[label='Verify my account']").click()
     ]);
     if(page.url().includes("user-management/dashboard"))
@@ -70,7 +70,7 @@ test('@ViaFlowTesting @Regression Via Flow Testing: Login, User Management & Adm
     await page.locator('#undefined_header').first().click();
     await page.locator("a[href*='app/user-management/create-user']").click();
     await page.waitForTimeout(1500);
-    expect.soft(page.url().includes("via-ui/app/user-management/create-user")).toBeTruthy();
+    expect.soft(page.url().includes("via-ui/#/app/user-management/create-user")).toBeTruthy();
     await page.locator("text=Permissions").click();
     const UserInfoSubmittoaster: boolean = await page.locator("p-toastitem").isVisible();
     if (UserInfoSubmittoaster === true) 
@@ -201,7 +201,7 @@ test('@ViaFlowTesting @Regression Via Flow Testing: Login, User Management & Adm
     await page.waitForTimeout(3000);
     //Adminstration: Creating New Client
     await page.locator("a[href*='admin/client-admin/create']").click();
-    await expect.soft(page).toHaveURL('https://qa-via.outamationlabs.com/via-ui/app/admin/client-admin/create');
+    await expect.soft(page).toHaveURL('https://qa-via.outamationlabs.com/via-ui/#/app/admin/client-admin/create');
     await page.locator("text=Submit").click();
     await page.waitForTimeout(1500);
     await expect.soft(page.locator("p-toastitem")).toContainText("Please fill all the required values!");
