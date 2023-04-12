@@ -43,7 +43,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     browserName: 'chromium',
-    headless: false,
+    headless: true,
     screenshot: 'on',
     trace: 'retain-on-failure',
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
