@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "WebTests": "npx playwright test --grep @VIAFlowTesting",
-    "Regression": "npx playwright test --grep @Regression"
+    "Regression": "npx playwright test --grep @Regression",
+    "test": "npx playwright test"
   },
   "keywords": [],
   "author": "",
