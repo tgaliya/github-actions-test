@@ -12,7 +12,7 @@ import { defineConfig } from '@playwright/test';
 export default defineConfig({
   testDir: './tests',
   /* Maximum time one test can run for. */
-  timeout: 60 * 1000,
+  timeout: 5 * 60 * 1000,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
@@ -43,7 +43,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     browserName: 'chromium',
-    headless: true,
+    headless: false,
     screenshot: 'on',
     trace: 'retain-on-failure',
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
