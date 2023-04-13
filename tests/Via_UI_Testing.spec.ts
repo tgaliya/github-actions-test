@@ -44,10 +44,10 @@ test.beforeEach(async({page}) =>
     await page.locator("input[type='tel']").nth(4).type("5",{delay:50});
     await page.locator("input[type='tel']").last().type("6",{delay:50});
     await Promise.all([
-        page.waitForURL("https://qa-via.outamationlabs.com/via-ui/#/app/user-management/users"),
+        page.waitForURL("https://qa-via.outamationlabs.com/via-ui/#/app/admin/user-management/users"),
         page.locator("button[label='Verify my account']").click()
     ]);
-    if(page.url().includes("app/user-management/users"))
+    if(page.url().includes("app/admin/user-management/users"))
     {
         console.log("User Login Successful");
     }
@@ -59,18 +59,18 @@ test.beforeEach(async({page}) =>
 let userdetails: string[] = ['tdavid321@gmail.com', 'Tim','David','M','011-772-8511',
 'M.B.A', 'Management'];
 let wuserdetails: string[] = ["tdavid@gmail-com","+1 572-790-1002","4391","(567) 890-5682"];
-let entitydetails: string[] = ['Lecsus Technologies', '3939 Jones Street','Dallas','Texas',
-'71707-7015','313-661-9191','+1','772-123-4567','+1','011-772-8511','tdavid@gmail.com'];
-let wentitydetails: string[] = ["9876","+1 571-789-1231","(890) 027-5682","tdavid@gmail-com",];
-let clientdetails: string[] = ['Lecsus Technologies','LTPL','3939 Jones Street','Dallas',
-'Alabama','71707-7015','313-661-9191','+1','772-123-4567','+1','011-772-8511','tdavid@gmail.com'];
-let wclientdetails: string[] = ["43901.0110","+2 571-789-1111","(890) 026-5681","tmdavid@gmail-com",];
+let entitydetails: string[] = ['Lecsus Technologies', 'tdavid@gmail.com', '011-772-8511', '313-661-9191',
+'1', '772-123-4567','1', '3939 Jones Street', 'Texas', 'Dallas', '71707-7015'];
+let wentitydetails: string[] = ["tdavid@gmail-com", "+1 571-789-1231", "(890) 027-5682", "9876"];
+let clientdetails: string[] = ['Lecsus Technologies','LTPL', 'tdavid@gmail.com', '011-772-8511', 
+'3939 Jones Street', 'Texas', 'Dallas', '71707-7015','313-661-9191','1','772-123-4567','1'];
+let wclientdetails: string[] = ["tmdavid@gmail-com", "43901.0110", "+2 571-789-1111", "(890) 026-5681"];
 test('@ViaFlowTesting @Regression Via Flow Testing: Login, User Management & Administration Module',async ({page})=>
 {
     //-------------------------------User Management: Creating New User---------------------------------
     await page.locator("button[label='Add User']").click(); //clicking on Add User button
     await page.waitForTimeout(1500);
-    expect.soft(page.url().includes("app/user-management/user-info")).toBeTruthy();
+    expect.soft(page.url().includes("app/admin/user-management/user-info")).toBeTruthy();
     await page.locator("p-button[label='Save & Close']").click();
     const UserInfoSubmittoaster: boolean = await page.locator("p-toastitem").isVisible();
     if (UserInfoSubmittoaster === true)
@@ -98,9 +98,9 @@ test('@ViaFlowTesting @Regression Via Flow Testing: Login, User Management & Adm
     expect.soft(userdetails[4]).toMatch(/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/);
     await page.locator("#title").type(userdetails[5],{delay:100});
     await page.locator("#department").type(userdetails[6],{delay:100});
-    await page.locator('p-dropdown span.p-dropdown-label').nth(1).click();
+    await page.locator('#state').click();
     await page.locator("li[aria-label='Florida']").click();
-    await page.locator('p-dropdown span.p-dropdown-label').nth(2).click();
+    await page.locator('#county').click();
     await page.locator("li[aria-label='Miami-Dade']").click();
     await page.locator("button span.pi-calendar").click();
     await page.locator("td.p-datepicker-today.ng-star-inserted").click(); //selecting current date
@@ -135,7 +135,7 @@ test('@ViaFlowTesting @Regression Via Flow Testing: Login, User Management & Adm
     }
     await page.locator("button[label='Add Entity']").click(); //clicking on Add Entity button
     expect.soft(page.url().includes("app/admin/entity-management/entity-info")).toBeTruthy();
-    await page.locator("text=Submit").click();
+    await page.locator("text=Save & Close").click();
     const blankEntityCreationtoaster: boolean = await page.locator("p-toastitem").isVisible();
     if (blankEntityCreationtoaster === true) 
     {
@@ -149,33 +149,37 @@ test('@ViaFlowTesting @Regression Via Flow Testing: Login, User Management & Adm
     }
     await page.locator("p-dropdown div.p-dropdown").nth(1).click();
     await page.locator("li[aria-label='User']").click();
-    await page.locator('p-dropdown span.p-dropdown-label').nth(1).textContent();
-    await page.locator("#companyName").type(entitydetails[0],{delay:100});
-    await page.locator("#address").type(entitydetails[1],{delay:50});
-    await page.locator("#city").fill(entitydetails[2]);
-    await page.locator("p-dropdown div.p-dropdown").last().click();
-    await page.locator("li[aria-label='Illinois']").click();
-    await page.locator('p-dropdown span.p-dropdown-label').last().textContent();
-    await page.locator("#zip").type(wentitydetails[0],{delay:100});
-    expect.soft(wentitydetails[0].match(/(^\d{5}$)|(^\d{5}-\d{4}$)/)).toBeFalsy();
-    await page.locator("#zip").clear();
-    await page.locator("#zip").type(entitydetails[4],{delay:100});
+    //await page.locator('p-dropdown span.p-dropdown-label').nth(1).textContent();
+    await page.locator("input[formcontrolname='companyName']").type(entitydetails[0],{delay:50});
+    await page.locator("input[formcontrolname='email']").type(wentitydetails[0],{delay:50});
+    expect.soft(wentitydetails[0].match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)).toBeFalsy();
+    await page.locator("input[formcontrolname='email']").clear();
+    await page.locator("input[formcontrolname='email']").type(entitydetails[1],{delay:50});
+    expect.soft(entitydetails[1]).toMatch(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/);
+    await page.locator("#faxNumber").fill(entitydetails[2]);
     await page.locator("#phoneNumber").type(wentitydetails[1],{delay:50});
     expect.soft(wentitydetails[1].match(/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/)).toBeFalsy();
     await page.locator("#phoneNumber").clear();
-    await page.locator("#phoneNumber").type(entitydetails[5],{delay:50});
-    await page.locator("#phoneExt").fill(entitydetails[6]);
+    await page.locator("#phoneNumber").type(entitydetails[3],{delay:50});
+    expect.soft(entitydetails[3]).toMatch(/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/);
+    await page.locator("#phoneExt").fill(entitydetails[4]);
     await page.locator("#alternatePhoneNumber").type(wentitydetails[2],{delay:50});
     expect.soft(wentitydetails[2].match(/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/)).toBeFalsy();
     await page.locator("#alternatePhoneNumber").clear();
-    await page.locator("#alternatePhoneNumber").type(entitydetails[7],{delay:50});
-    await page.locator("#alternatePhoneExt").fill(entitydetails[8]);
-    await page.locator("#faxNumber").fill(entitydetails[9]);
-    await page.locator("#email").type(wentitydetails[3],{delay:50});
-    expect.soft(wentitydetails[3].match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)).toBeFalsy();
-    await page.locator("#email").clear();
-    await page.locator("#email").type(entitydetails[10],{delay:50});
-    await page.locator("text=Submit").click();
+    await page.locator("#alternatePhoneNumber").type(entitydetails[5],{delay:50});
+    expect.soft(entitydetails[5]).toMatch(/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/);
+    await page.locator("#alternatePhoneExt").fill(entitydetails[6]);
+    await page.locator("#address").type(entitydetails[7],{delay:50});
+    await page.locator("#state").click();
+    await page.locator("li[aria-label='Texas']").click();
+    await page.locator("#city").fill(entitydetails[9]);
+    //await page.locator('p-dropdown span.p-dropdown-label').last().textContent();
+    await page.locator("#zip").type(wentitydetails[3],{delay:100});
+    expect.soft(wentitydetails[3].match(/(^\d{5}$)|(^\d{5}-\d{4}$)/)).toBeFalsy();
+    await page.locator("#zip").clear();
+    await page.locator("#zip").type(entitydetails[10],{delay:100});
+    expect.soft(entitydetails[10]).toMatch(/(^\d{5}$)|(^\d{5}-\d{4}$)/);
+    await page.locator("text=Save & Close").click();
     await page.locator("button.p-button span.pi-check").click();
     const Entitycreationsuccessmsg : boolean = await page.locator(".p-toast-detail").isVisible();
     if (Entitycreationsuccessmsg === true) 
@@ -186,15 +190,18 @@ test('@ViaFlowTesting @Regression Via Flow Testing: Login, User Management & Adm
         if(Success1 === "Entity has been created")
         {
             console.log("Entity Creation Passed");
+            await page.waitForTimeout(3000);
         }
         else
         {
             console.log("Entity Creation Failed");
+            await page.waitForTimeout(3000);
         }
     } 
     else 
     {
         console.log("Error: Submitting Entity Details (Success) toaster message missing!");
+        await page.waitForTimeout(3000);
     }
     //-------------------------------Adminstration: Creating New Client---------------------------------
     await page.locator("div[aria-label='Administration']").click(); //clicking on side menu bar of Administration
@@ -215,30 +222,34 @@ test('@ViaFlowTesting @Regression Via Flow Testing: Login, User Management & Adm
     }
     await page.locator("#companyName").type(clientdetails[0],{delay:50});
     await page.locator("#companyCode").type(clientdetails[1],{delay:100});
-    await page.locator("#address").type(clientdetails[2],{delay:50});
-    await page.locator("#city").fill(clientdetails[3]);
-    await page.locator("p-dropdown#state span").last().click();
-    await page.locator("li[aria-label='California']").click();
-    await page.locator('p-dropdown span.p-dropdown-label').last().textContent();
-    await page.locator("#zip").fill(wclientdetails[0]);
-    expect.soft(wclientdetails[0].match(/(^\d{5}$)|(^\d{5}-\d{4}$)/)).toBeFalsy();
-    await page.locator("#zip").clear();
-    await page.locator("#zip").fill(clientdetails[5]);
-    await page.locator("#phoneNumber").type(wclientdetails[1],{delay:50});
-    expect.soft(wclientdetails[1].match(/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/)).toBeFalsy();
-    await page.locator("#phoneNumber").clear();
-    await page.locator("#phoneNumber").type(clientdetails[6],{delay:50});
-    await page.locator("#phoneExt").fill(clientdetails[7]);
-    await page.locator("#alternatePhoneNumber").type(wclientdetails[2],{delay:50});
-    expect.soft(wclientdetails[2].match(/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/)).toBeFalsy();
-    await page.locator("#alternatePhoneNumber").clear();
-    await page.locator("#alternatePhoneNumber").type(clientdetails[8],{delay:50});
-    await page.locator("#alternatePhoneExt").fill(clientdetails[9]);
-    await page.locator("#faxNumber").fill(clientdetails[10]);
-    await page.locator("#email").type(wclientdetails[3],{delay:50});
-    expect.soft(wclientdetails[3].match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)).toBeFalsy();
+    await page.locator("#email").type(wclientdetails[0],{delay:50});
+    expect.soft(wclientdetails[0].match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)).toBeFalsy();
     await page.locator("#email").clear();
-    await page.locator("#email").type(clientdetails[11],{delay:50});
+    await page.locator("#email").type(clientdetails[2],{delay:50});
+    expect.soft(clientdetails[2]).toMatch(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/);
+    await page.locator("#faxNumber").fill(clientdetails[3]);
+    await page.locator("#address").type(clientdetails[4],{delay:50});
+    await page.locator("#state").click();
+    await page.locator("li[aria-label='California']").click();
+    //await page.locator('p-dropdown span.p-dropdown-label').last().textContent();
+    await page.locator("#city").fill(clientdetails[6]);
+    await page.locator("#zip").fill(wclientdetails[1]);
+    expect.soft(wclientdetails[1].match(/(^\d{5}$)|(^\d{5}-\d{4}$)/)).toBeFalsy();
+    await page.locator("#zip").clear();
+    await page.locator("#zip").fill(clientdetails[7]);
+    expect.soft(clientdetails[7]).toMatch(/(^\d{5}$)|(^\d{5}-\d{4}$)/);
+    await page.locator("#phoneNumber").type(wclientdetails[2],{delay:50});
+    expect.soft(wclientdetails[2].match(/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/)).toBeFalsy();
+    await page.locator("#phoneNumber").clear();
+    await page.locator("#phoneNumber").type(clientdetails[8],{delay:50});
+    expect.soft(clientdetails[8]).toMatch(/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/);
+    await page.locator("#phoneExt").fill(clientdetails[9]);
+    await page.locator("#alternatePhoneNumber").type(wclientdetails[3],{delay:50});
+    expect.soft(wclientdetails[3].match(/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/)).toBeFalsy();
+    await page.locator("#alternatePhoneNumber").clear();
+    await page.locator("#alternatePhoneNumber").type(clientdetails[10],{delay:50});
+    expect.soft(clientdetails[10]).toMatch(/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/);
+    await page.locator("#alternatePhoneExt").fill(clientdetails[11]);
     await page.locator("text=Save & Close").click();
     const Clientcreationsuccessmsg : boolean = await page.locator(".p-toast-detail").isVisible();
     if (Clientcreationsuccessmsg === true) 

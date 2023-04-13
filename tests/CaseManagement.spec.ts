@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 test.beforeEach(async({page}) =>
 {
-    //Login Module
+    //-----------------------------------------Login Module---------------------------------------------
     let username = "Via";
     let password = "Via@12345";
     let wpassword = "Via@123";
@@ -17,11 +17,11 @@ test.beforeEach(async({page}) =>
     {
         console.log("Error: Blank Login toaster message missing!");
     }
-    await page.locator("input[placeholder='Username']").fill(username);
-    await page.locator("input[placeholder='Password']").fill(wpassword);
+    await page.locator("input[placeholder='Username']").type(username,{delay:100});
+    await page.locator("input[placeholder='Password']").type(wpassword,{delay:100});
     expect.soft(wpassword.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)).toBeFalsy();
     await page.locator("input[placeholder='Password']").clear();
-    await page.locator("input[placeholder='Password']").fill(password);
+    await page.locator("input[placeholder='Password']").type(password,{delay:100});
     expect.soft(wpassword.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/));
     await page.locator("input[placeholder='Password']").press('Tab');
     await page.locator("button[label='Login']").click();
@@ -37,17 +37,17 @@ test.beforeEach(async({page}) =>
     {
         console.log("Error: Blank OTP toaster message missing!");
     }
-    await page.locator("input[type='tel']").first().type("1");
-    await page.locator("input[type='tel']").nth(1).type("2");
-    await page.locator("input[type='tel']").nth(2).type("3");
-    await page.locator("input[type='tel']").nth(3).type("4");
-    await page.locator("input[type='tel']").nth(4).type("5");
-    await page.locator("input[type='tel']").last().type("6");
+    await page.locator("input[type='tel']").first().type("1",{delay:50});
+    await page.locator("input[type='tel']").nth(1).type("2",{delay:50});
+    await page.locator("input[type='tel']").nth(2).type("3",{delay:50});
+    await page.locator("input[type='tel']").nth(3).type("4",{delay:50});
+    await page.locator("input[type='tel']").nth(4).type("5",{delay:50});
+    await page.locator("input[type='tel']").last().type("6",{delay:50});
     await Promise.all([
-        page.waitForURL("https://qa-via.outamationlabs.com/via-ui/#/app/user-management/users"),
+        page.waitForURL("https://qa-via.outamationlabs.com/via-ui/#/app/admin/user-management/users"),
         page.locator("button[label='Verify my account']").click()
     ]);
-    if(page.url().includes("app/user-management/users"))
+    if(page.url().includes("app/admin/user-management/users"))
     {
         console.log("User Login Successful");
     }
@@ -61,8 +61,8 @@ let loaninfo: string[] = ['105', '500', '1000', '5000', '5'];
 let wloaninfo: string[] = ['$500', ' 1000', '2500.00', '10%'];
 let borrowerinfo: string[] = ['Gill', 'Richard', 'Gates', 'GillGates12@gmail.com', 'GillRGates1204@gmail.com', 'New Jersey', '56700', '1005', '25000'];
 let wborrowerinfo: string[] = ['GillGates12$gmail.com', 'GillGates333@gmailcom', '4321'];
-let propertyinfo: string[] = ['1133 Hartway Street', 'Shayona Apt', 'New Jersey', '45678', '7000'];
-let wpropertyinfo: string[] = ['98765.4321', '500$'];
+let propertyinfo: string[] = ['1133 Hartway Street', 'Shayona Apt', 'Miami', '45678', '100'];
+let wpropertyinfo: string[] = ['9870', '$50'];
 test('@ViaFlowTesting @CaseManagement @Regression Via Flow Testing: Creating new case and entering required details',async ({page})=>
 {
     //---------------------------Case Management : Case/File Info Module--------------------------------
@@ -91,7 +91,8 @@ test('@ViaFlowTesting @CaseManagement @Regression Via Flow Testing: Creating new
         console.log("Error: Blank Create case/file info toaster message missing!");
         await page.waitForTimeout(3000);
     }
-    let CaseNo = await page.getByRole('textbox').nth(1).inputValue();
+    //let CaseNo = await page.getByRole('textbox').nth(1).inputValue();
+    let CaseNo = await page.locator("via-case-header span.font-normal").textContent();
     console.log("New Case Number is : " + CaseNo);
     await page.locator("span.p-dropdown-label").nth(1).click(); //clicking on case type dropdown
     await page.locator("li[aria-label='Bankruptcy']").click();
@@ -105,6 +106,8 @@ test('@ViaFlowTesting @CaseManagement @Regression Via Flow Testing: Creating new
     await page.locator("#referralCode").type(casedetails[1]);
     await page.locator("span.p-dropdown-label").nth(5).click(); //clicking on Attorney dropdown
     await page.locator("li[aria-label='Brannan, Mindy']").click();
+    await page.locator("span.p-dropdown-label").nth(6).click(); //clicking on User dropdown
+    await page.locator("li[aria-label='Jason Fischer']").click();
     await page.locator("#barNumber").type(casedetails[2]);
     await page.locator("textarea[placeholder='Input Notes']").fill(casedetails[3]);
     await Promise.all([
@@ -248,7 +251,7 @@ test('@ViaFlowTesting @CaseManagement @Regression Via Flow Testing: Creating new
     await page.locator("input[formcontrolname='PropertyAddress2']").type(propertyinfo[1]);
     await page.locator("input[placeholder='Input City']").type(propertyinfo[2]);
     await page.locator("span.p-dropdown-label").nth(1).click(); //clicking on state dropdown
-    await page.locator("li[aria-label='California']").click(); //selecting state from dropdown
+    await page.locator("li[aria-label='Florida']").click(); //selecting state from dropdown
     await page.locator("input[formcontrolname='PropertyZip']").type(wpropertyinfo[0]);
     expect.soft(wpropertyinfo[0].match(/(^\d{5}$)|(^\d{5}-\d{4}$)/)).toBeFalsy();
     await page.locator("input[formcontrolname='PropertyZip']").clear();
@@ -270,6 +273,7 @@ test('@ViaFlowTesting @CaseManagement @Regression Via Flow Testing: Creating new
     await page.locator("input[formcontrolname='PropertyPreservationCosts']").clear();
     await page.locator("input[formcontrolname='PropertyPreservationCosts']").type(propertyinfo[4]);
     expect.soft(propertyinfo[4]).toMatch(/^[0-9]+$/);
+    await page.waitForTimeout(3000);
     await Promise.all([
         page.waitForURL("https://qa-via.outamationlabs.com/via-ui/#/app/case-management/case-form/"+ CaseNo +"/document"),
         page.locator("text=Next").click()
@@ -331,50 +335,81 @@ test('@ViaFlowTesting @CaseManagement @Regression Via Flow Testing: Creating new
         }
     }
     //----------------------------Case Management : Choose Workflow Module-----------------------------
-    const workflowmsg: boolean = await page.locator("p-badge[severity='success']").isVisible();
+    await page.locator("p-button[label='Submit']").click();
+    const blankworkflowtoaster: boolean = await page.locator("p-toastitem").isVisible();
+    if (blankworkflowtoaster === true) 
+    {
+        await expect(page.locator("p-toastitem")).toContainText("Please select a workflow!");  
+        await page.waitForTimeout(3000);
+    } 
+    else
+    {
+        console.log("Error: select workflow toaster message missing!");
+        await page.waitForTimeout(3000);
+    }
+    await page.locator("div[role='radio']").first().click();
+    expect.soft(await page.locator("div[role='radio']").first().isChecked());
     await Promise.all([
         page.waitForURL("https://qa-via.outamationlabs.com/via-ui/#/app/case-management/cases"),
         page.locator("p-button[label='Submit']").click()
     ]);
-    const blankworkflowtoaster: boolean = await page.locator("p-toastitem").isVisible();
-    if (blankworkflowtoaster === true) 
+    if(page.url().includes("app/case-management/cases"))
     {
-        await expect(page.locator("p-toastitem")).toContainText("Please fill all the required values!");  
-        await page.waitForTimeout(3000);
-        await page.locator("li[role='option']").click(); //Clicking on workflow instance dropdown
-        await page.locator("li[role='option'] div").last().click(); //Selecting workflow instance from dropdown
-        let workflowname =  await page.locator("li[role='option']").textContent();
-        console.log("Selected Workflow Name is : " + workflowname);
-        await Promise.all([
-            page.waitForURL("https://qa-via.outamationlabs.com/via-ui/#/app/case-management/cases"),
-            page.locator("p-button[label='Submit']").click()
-        ]);
-        if(page.url().includes("app/case-management/cases"))
-        {
-            console.log("Case Creation Successful");
-            console.log("User redirected to cases page");
-        }
-        else
-        {   
-            console.log("Case Creation Unsuccessful");
-            console.log("User failed to land on cases page");
-        }
-    } 
-    else
-    {
-        console.log("Error: Blank Workflow toaster message missing!");
-        await page.waitForTimeout(3000);
-        if(workflowmsg === true && page.url().includes("app/case-management/cases"))
-        {  
-            console.log("Workflow Information Submitted");
-            console.log("Case Creation Successful");
-            console.log("User redirected to cases page");
-        }
-        else
-        {
-            console.log("Workflow Information Not Submitted");
-            console.log("Case Creation Unsuccessful");
-            console.log("User failed to land on cases page");
-        }
+        console.log("Workflow Information Submitted");
+        console.log("Case Creation Successful");
+        console.log("User redirected to cases page");
     }
+    else
+    {   
+        console.log("Workflow Information Not Submitted");
+        console.log("Case Creation Unsuccessful");
+        console.log("User failed to land on cases page");
+    }
+    
+    // const workflowmsg: boolean = await page.locator("p-badge[severity='success']").isVisible();
+    // await Promise.all([
+    //     page.waitForURL("https://qa-via.outamationlabs.com/via-ui/#/app/case-management/cases"),
+    //     page.locator("p-button[label='Submit']").click()
+    // ]);
+    // const blankworkflowtoaster: boolean = await page.locator("p-toastitem").isVisible();
+    // if (blankworkflowtoaster === true) 
+    // {
+    //     await expect(page.locator("p-toastitem")).toContainText("Please fill all the required values!");  
+    //     await page.waitForTimeout(3000);
+    //     await page.locator("li[role='option']").click(); //Clicking on workflow instance dropdown
+    //     await page.locator("li[role='option'] div").last().click(); //Selecting workflow instance from dropdown
+    //     let workflowname =  await page.locator("li[role='option']").textContent();
+    //     console.log("Selected Workflow Name is : " + workflowname);
+    //     await Promise.all([
+    //         page.waitForURL("https://qa-via.outamationlabs.com/via-ui/#/app/case-management/cases"),
+    //         page.locator("p-button[label='Submit']").click()
+    //     ]);
+    //     if(page.url().includes("app/case-management/cases"))
+    //     {
+    //         console.log("Case Creation Successful");
+    //         console.log("User redirected to cases page");
+    //     }
+    //     else
+    //     {   
+    //         console.log("Case Creation Unsuccessful");
+    //         console.log("User failed to land on cases page");
+    //     }
+    // } 
+    // else
+    // {
+    //     console.log("Error: Blank Workflow toaster message missing!");
+    //     await page.waitForTimeout(3000);
+    //     if(workflowmsg === true && page.url().includes("app/case-management/cases"))
+    //     {  
+    //         console.log("Workflow Information Submitted");
+    //         console.log("Case Creation Successful");
+    //         console.log("User redirected to cases page");
+    //     }
+    //     else
+    //     {
+    //         console.log("Workflow Information Not Submitted");
+    //         console.log("Case Creation Unsuccessful");
+    //         console.log("User failed to land on cases page");
+    //     }
+    // }
 });
