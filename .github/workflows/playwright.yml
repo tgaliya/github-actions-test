@@ -27,7 +27,7 @@ jobs:
         path: playwright-report/
         retention-days: 20
         
-    - name: Get Allure history
+    - name: Get Playwright history
       uses: actions/checkout@v2
       if: ${{ always() }}
       continue-on-error: true
@@ -36,7 +36,7 @@ jobs:
         path: gh-pages
     
     - name: Test marketplace action
-      uses: simple-elf/playwright-report-action@master
+      uses: tgaliya/github-actions-test@master
       if: ${{ always() }}
       id: playwright-report
       with:
