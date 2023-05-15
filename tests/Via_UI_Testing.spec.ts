@@ -44,10 +44,10 @@ test.beforeEach(async({page}) =>
     await page.locator("input[type='tel']").nth(4).type("5",{delay:50});
     await page.locator("input[type='tel']").last().type("6",{delay:50});
     await Promise.all([
-        page.waitForURL("https://qa-via.outamationlabs.com/via-ui/#/app/admin/user-management/users"),
+        page.waitForURL("https://qa-via.outamationlabs.com/via-ui/#/app/dashboard"),
         page.locator("button[label='Verify my account']").click()
     ]);
-    if(page.url().includes("app/admin/user-management/users"))
+    if(page.url().includes("app/dashboard"))
     {
         console.log("User Login Successful");
     }
@@ -56,18 +56,20 @@ test.beforeEach(async({page}) =>
         console.log("User Login Failed");
     }
 });
-let userdetails: string[] = ['tdavid321@gmail.com', 'Tim','David','M','011-772-8511',
-'M.B.A', 'Management'];
-let wuserdetails: string[] = ["tdavid@gmail-com","+1 572-790-1002","4391","(567) 890-5682"];
-let entitydetails: string[] = ['Lecsus Technologies', 'tdavid@gmail.com', '011-772-8511', '313-661-9191',
-'1', '772-123-4567','1', '3939 Jones Street', 'Texas', 'Dallas', '71707-7015'];
-let wentitydetails: string[] = ["tdavid@gmail-com", "+1 571-789-1231", "(890) 027-5682", "9876"];
-let clientdetails: string[] = ['Lecsus Technologies','LTPL', 'tdavid@gmail.com', '011-772-8511', 
-'3939 Jones Street', 'Texas', 'Dallas', '71707-7015','313-661-9191','1','772-123-4567','1'];
-let wclientdetails: string[] = ["tmdavid@gmail-com", "43901.0110", "+2 571-789-1111", "(890) 026-5681"];
+let userdetails: string[] = ['amcook321@gmail.com', 'Alex','Cook','M','011-772-8511',
+'M.B.A', 'Finance'];
+let wuserdetails: string[] = ["acook@gmail-com","+1 572-790-1002","4391","(567) 890-5682"];
+let entitydetails: string[] = ['Smallcap Technologies', 'amcook@gmail.com', '011-772-8511', '313-661-9191',
+'1', '772-123-4567','1', '2819 Clement Street', 'Texas', 'Dallas', '71707-7015'];
+let wentitydetails: string[] = ["acook@gmail-com", "+1 571-789-1231", "(890) 027-5682", "9876"];
+let clientdetails: string[] = ['Smallcap Technologies','SCTPL', 'amcook@gmail.com', '011-772-8511', 
+'2819 Clement Street', 'Texas', 'Dallas', '71707-7015','313-661-9191','1','772-123-4567','1'];
+let wclientdetails: string[] = ["amcook@gmail-com", "43901.0110", "+2 571-789-1111", "(890) 026-5681"];
 test('@ViaFlowTesting @Regression Via Flow Testing: Login, User Management & Administration Module',async ({page})=>
 {
     //-------------------------------User Management: Creating New User---------------------------------
+    await page.locator("div[aria-label='Administration']").click(); //clicking on side nav bar of Administration
+    await page.locator("div[aria-label='User Management']").click(); //selecting User Management from side menu bar
     await page.locator("button[label='Add User']").click(); //clicking on Add User button
     await page.waitForTimeout(1500);
     expect.soft(page.url().includes("app/admin/user-management/user-info")).toBeTruthy();
