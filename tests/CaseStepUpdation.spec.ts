@@ -60,15 +60,15 @@ test.beforeEach(async({page}) =>
         console.log("User Login Failed");
     }
 });
-let userdetails: string[] = ['samcurran321@gmail.com', 'Sam','Curran','J','281-890-0036',
+let userdetails: string[] = ['albertjerry321@gmail.com', 'Albert','Jerry','k','281-890-0036',
 'Sales Executive', 'Sales'];
-let wuserdetails: string[] = ["samcurran@gmail-com","+1 572-790-1002","4391","(567) 890-5682"];
-let entitydetails: string[] = ['Money Magnet', 'samcurran@gmail.com', '011-772-8511', '313-661-9191',
-'1', '772-123-4567','1', '1073 Spring Avenue', 'Texas', 'Houston', '77070'];
-let wentitydetails: string[] = ["samcurran@gmail-com", "+1 571-789-1231", "(890) 027-5682", "9876"];
-let clientdetails: string[] = ['Money Magnet','MMPL', 'samcurran@gmail.com', '011-772-8511', 
-'1073 Spring Avenue', 'Texas', 'Houston', '71707-7015','313-661-9191','1','772-123-4567','1'];
-let wclientdetails: string[] = ["samcurran@gmail-com", "43901.0110", "+2 571-789-1111", "(890) 026-5681"];
+let wuserdetails: string[] = ["albertjerry@gmail-com","+1 572-790-1002","4391","(567) 890-5682"];
+let entitydetails: string[] = ['Delfas Technologies', 'albertjerry@gmail.com', '011-772-8511', '313-661-9191',
+'1', '772-123-4567','1', '201 Cypress Avenue', 'Texas', 'Houston', '77070'];
+let wentitydetails: string[] = ["albertjerry@gmail-com", "+1 571-789-1231", "(890) 027-5682", "9876"];
+let clientdetails: string[] = ['Delfas Technologies','DTPL', 'albertjerry@gmail.com', '011-772-8511', 
+'201 Cypress Avenue', 'Texas', 'Houston', '71707-7015','313-661-9191','1','772-123-4567','1'];
+let wclientdetails: string[] = ["albertjerry@gmail-com", "43901.0110", "+2 571-789-1111", "(890) 026-5681"];
 let trusteeinfo: string[] = ['Andrew Tye', '2618 Caldwell Road', 'Simform Apt', '14428', 'Miami'];
 test('VIA Flow Testing from Login till Logout', async({page})=>
 {
