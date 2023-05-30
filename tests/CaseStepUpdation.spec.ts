@@ -440,7 +440,7 @@ test('VIA Flow Testing from Login till Logout', async({page})=>
         Borrower_Name?.match(BorrowerName) && Loan_Number?.match("79845612") && Investor_Type?.match("FHLMC") && 
         Case_Type?.match("Foreclosure") && Servicer_Name?.match("ABC Bank") && Property_Address?.match(FullAddress) 
         && Property_City?.match("Cottonwood") && Property_State?.match("AZ") && 
-        Property_Zip?.match("86326") && Case_Status?.match("In-Progress") && Workflow_Name?.match("Foreclosure-TX"))
+        Property_Zip?.match("86326") && Case_Status?.match("In-Progress") && Workflow_Name?.match("Workflow-Foreclosure-AZ-FHA-FHLMC"))
         {
             console.log("Success, Case Details Verification Pass");
             await page.waitForTimeout(3000);
@@ -481,7 +481,7 @@ test('VIA Flow Testing from Login till Logout', async({page})=>
         }
         //await page.pause();
         await page.locator("div[role='radio']").nth(1).click();
-        expect.soft(await page.locator("div[role='radio']").nth(1).isChecked());
+        expect.soft(await page.locator("div[role='radio']").nth(0).isChecked());
         await Promise.all([
             page.waitForURL("https://qa-via.outamationlabs.com/via-ui/#/app/case-management/cases"),
             page.locator("p-button[label='Submit']").click()
@@ -547,7 +547,7 @@ test('VIA Flow Testing from Login till Logout', async({page})=>
         Case_Type1?.match("Foreclosure") && Servicer_Name1?.match("ABC Bank") && Property_Address1?.match(FullAddress) 
         && Property_City1?.match("Cottonwood") && Property_State1?.match("AZ") && 
         Property_Zip1?.match("86326") && Case_Status1?.match("In-Progress") && 
-        Workflow_Name1?.match("Foreclosure-AZ-FHA"))
+        Workflow_Name1?.match("Workflow-Foreclosure-AZ-FHA-FHLMC"))
         {
             console.log("Success, Case Details Verification Pass after editing the case");
             await page.waitForTimeout(3000);
